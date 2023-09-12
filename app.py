@@ -9,6 +9,21 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from htmlTemplates import css, bot_template, user_template
 from langchain.llms import HuggingFaceHub
+import streamlit_authenticator as stauth
+
+# Authentication function
+def authenticate():
+    # You can replace this with your own authentication logic
+    # For demonstration purposes, I'm using a simple username and password check
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    
+    if username == "admin" and password == "password":  # Replace with your own logic
+        return True
+    elif username or password:
+        st.warning("Incorrect username or password")
+    return False
+
 
 def get_pdf_text(pdf_docs):
     text = ""
@@ -75,7 +90,7 @@ def main():
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = None
 
-    st.header("Chat with multiple PDFs :books:")
+    st.header("Chat with PDFs :books:")
     user_question = st.text_input("Ask a question about your documents:")
     if user_question:
         handle_userinput(user_question)
